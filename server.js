@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true })); // ✅ Support form data
 app.use('/user', userRoute);
 app.use('/myfriend', myfriendRoute);
 

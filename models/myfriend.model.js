@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../db/db.js');
-const User = require('./User'); 
+const User = require('./user.model.js'); 
 
 const MyFriend = sequelize.define('myfriend_tb', {
     myfriendId: {

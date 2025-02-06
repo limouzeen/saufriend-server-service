@@ -33,6 +33,11 @@ const User = sequelize.define('user_tb', {
         type: Sequelize.STRING(150),
         allowNull: false,
         field: "userImage"
+    },userStatus: {  
+        type: Sequelize.TINYINT,
+        allowNull: false,
+        defaultValue: 1, // 1 = Active, 0 = Inactive
+        field: "userStatus"
     }
 },
 {
