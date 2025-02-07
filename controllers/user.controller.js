@@ -11,7 +11,7 @@ const sequelize = require('./../db/db.js');
 
 exports.checkLogin = async (req, res) => {
     try {
-        console.log("🟢 Received request body:", req.body);
+        console.log("Received request body:", req.body);
 
         const { userName, userPassword } = req.body;
 
@@ -23,7 +23,7 @@ exports.checkLogin = async (req, res) => {
         // ค้นหาผู้ใช้ในฐานข้อมูล
         const user = await User.findOne({ where: { userName, userStatus: 1 } });
 
-        console.log("🔍 Checking user in DB:", user);
+        console.log("Checking user in DB:", user);
 
         if (!user) {
             return res.status(401).json({ message: 'Invalid username or password' });
@@ -53,7 +53,7 @@ exports.checkLogin = async (req, res) => {
         res.json({ message: 'Login successful', token, user });
 
     } catch (error) {
-        console.error("🚨 Error in checkLogin:", error);
+        console.error("Error in checkLogin:", error);
         res.status(500).json({ message: 'Internal server error', error: error.message });
     }
 };

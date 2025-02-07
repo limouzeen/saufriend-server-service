@@ -115,25 +115,25 @@ exports.createMyFriend = async (req, res) => {
 exports.deleteMyFriend = async (req, res) => {
     const transaction = await sequelize.transaction();
     try {
-        console.log("🟢 Received request to delete myfriendId:", req.params);
+        console.log("Received request to delete myfriendId:", req.params);
         const { myfriendId } = req.params;
         const userId = req.user.userId; // รับ userId จาก `verifyToken`
 
-        // ✅ ตรวจสอบว่าพารามิเตอร์ถูกส่งมาหรือไม่
+        // ตรวจสอบว่าพารามิเตอร์ถูกส่งมาหรือไม่
         if (!myfriendId || isNaN(myfriendId)) {
-            console.log("❌ Invalid request: Missing or invalid myfriendId");
-            return res.status(400).json({ message: "❌ Missing or invalid myfriendId" });
+            console.log("Invalid request: Missing or invalid myfriendId");
+            return res.status(400).json({ message: "Missing or invalid myfriendId" });
         }
 
-        // ✅ ตรวจสอบว่าเพื่อนนี้เป็นของผู้ใช้ที่ล็อกอินอยู่หรือไม่
+        //ตรวจสอบว่าเพื่อนนี้เป็นของผู้ใช้ที่ล็อกอินอยู่หรือไม่
         const myfriend = await MyFriend.findOne({ where: { myfriendId, userId } });
 
         if (!myfriend) {
-            console.log("❌ Friend not found or unauthorized to delete");
-            return res.status(404).json({ message: "❌ Friend not found or unauthorized" });
+            console.log("Friend not found or unauthorized to delete");
+            return res.status(404).json({ message: "Friend not found or unauthorized" });
         }
 
-        // ✅ ลบรูปถ้าไม่ใช่ `default.jpg`
+        //ลบรูปถ้าไม่ใช่ `default.jpg`
         const friendImage = myfriend.myfriendImage;
         if (friendImage && friendImage !== 'default.jpg') {
             const imagePath = path.join(__dirname, '../images/myfriend/', friendImage);
@@ -143,18 +143,18 @@ exports.deleteMyFriend = async (req, res) => {
             }
         }
 
-        // ✅ ลบข้อมูลเพื่อนจากฐานข้อมูล
+        // ลบข้อมูลเพื่อนจากฐานข้อมูล
         await MyFriend.destroy({ where: { myfriendId }, transaction });
 
         await transaction.commit();
-        console.log(`✅ Friend ${myfriendId} deleted successfully!`);
-        return res.status(200).json({ message: "✅ Friend deleted successfully" });
+        console.log(`Friend ${myfriendId} deleted successfully!`);
+        return res.status(200).json({ message: "Friend deleted successfully" });
 
     } catch (error) {
         await transaction.rollback();
 
-        console.error("🚨 Error deleting myfriend:", error);
-        return res.status(500).json({ message: "❌ Internal server error", error: error.message });
+        console.error("Error deleting myfriend:", error);
+        return res.status(500).json({ message: "Internal server error", error: error.message });
     }
 };
 
