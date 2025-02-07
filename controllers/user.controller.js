@@ -83,7 +83,7 @@ exports.createUser = async (req, res) => {
     const transaction = await sequelize.transaction(); //ใช้ Transaction ป้องกันปัญหาข้อมูลผิดพลาด
 
     try {
-        console.log("🟢 Received request body:", req.body);
+        console.log("Received request body:", req.body);
 
         const { userFullname, userEmail, userName, userPassword } = req.body;
         let userImage = req.file ? req.file.filename : 'default.jpg'; //ใช้รูป `default.jpg` ถ้าไม่มีอัปโหลด
@@ -97,13 +97,13 @@ exports.createUser = async (req, res) => {
         //ตรวจสอบว่าอีเมลถูกใช้ไปแล้วหรือยัง
         const existingEmail = await User.findOne({ where: { userEmail } });
         if (existingEmail) {
-            return res.status(400).json({ message: "❌ Email already exists" });
+            return res.status(400).json({ message: "Email already exists" });
         }
 
         //ตรวจสอบว่าชื่อผู้ใช้ถูกใช้ไปแล้วหรือยัง
         const existingUser = await User.findOne({ where: { userName } });
         if (existingUser) {
-            return res.status(400).json({ message: "❌ Username already exists" });
+            return res.status(400).json({ message: "Username already exists" });
         }
 
         //เข้ารหัสรหัสผ่าน
@@ -134,7 +134,7 @@ exports.createUser = async (req, res) => {
     } catch (error) {
         await transaction.rollback(); //ยกเลิกการเปลี่ยนแปลงหากมีข้อผิดพลาด
 
-        console.error("🚨 Error creating user:", error);
+        console.error("Error creating user:", error);
 
         // ลบไฟล์ที่อัปโหลดออกถ้าสร้างบัญชีไม่สำเร็จ
         if (req.file) {
