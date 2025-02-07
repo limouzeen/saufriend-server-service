@@ -25,7 +25,7 @@ const User = sequelize.define('user_tb', {
         field: "userName"
     },
     userPassword: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING(60),
         allowNull: false,
         field: "userPassword"
     },
