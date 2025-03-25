@@ -14,6 +14,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true })); // ✅ Support form data
 app.use('/user', userRoute);
 app.use('/myfriend', myfriendRoute);
+app.use('/images', express.static('images')); 
 
 app.get('/', (req, res) => {
     res.json({
